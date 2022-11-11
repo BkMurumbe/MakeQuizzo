@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Make Quizzo</title>
+    <style>
+        body{
+            
+            padding:0;
+            margin:0;
+        }
+        
+        *{
+            box-sizing:border-box;
+        }
+        
+        .inputcard{
+        
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items: center;
+            width:350px;
+            padding:30px 8px 30px 8px;
+            border-radius:8px;
+            background:white;
+           
+        }
+        
+        .page1{
+        
+            display:flex;
+            flex-direction:column;
+            justify-content:top;
+            align-items:center;
+            height:100vh;
+            width:100vw;
+            background:cyan;
+            overflow:auto;
+            padding:50px 8px 50px 8px;
+        }
+       
+       .page1 input{
+           
+          height:40px;
+          width:300px;
+          border:none; 
+          padding:8px;
+          background:#EFDCC5;
+          border-radius:8px;
+          outline:none;
+          font-size:16px;
+          color:black;
+       }
+       
+       .page1 input:focus{
+           
+           outline:solid 1.5px #A37161;
+           
+       }
+       
+        .qbox,.opbox,.ansbox{
+         
+          padding:8px;
+          border-radius:8px;
+          background:white;
+          margin:8px;
+         
+            
+        }
+        
+        .addbtn{
+        
+            height:50px;
+            width:200px;
+            background:dodgerblue;
+            font-size:20px;
+            font-weight:bolder;
+            color:white;
+            border:none;
+            border-radius:50px;
+            margin:12px;
+        }
+        
+        .addbtn:active{
+            
+            transform:scale(0.9);
+        }
+        
+        #answer{
+            
+            height:40px;
+            width:200px;
+            border-radius:8px;
+            background:#EFDCC5;
+            border:none;
+        }
+        
+        .btncopy{
+        
+            height:50px;
+            width:200px;
+            background:none;
+            border-radius:50px;
+            border:none;
+            color:#000;
+            font-size:20px;
+            font-weight:bolder;
+            margin:8px;
+            outline:solid 1.5px grey; 
+        }
+        
+        #btncopybox{
+        
+    
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          align-items:center;
+          
+        
+        }
+        
+        .btncopy:active{
+            
+            transform:scale(0.9);
+        }
+        
+        .btncopy:hover{
+        
+            background:orange;
+            
+        }
+        
+       .webbox{
+           
+           display:flex;
+           flex-direction:column;
+           justify-content:center;
+           align-items: center;
+       }
+       
+       #codearea{
+           
+           height:150px;
+           width:250px;
+           background:white;
+           color:black;
+           border-radius:8px;
+           border:none;
+           padding:8px;
+       }
+    </style>
+</head>
+<body>
+   <div>
+       
+       <div class="page1">
+        <div class="webbox">    
+       <div class="inputcard">
+           <h2>Create Quiz</h2>
+           <div>
+               <p id="qcountview"></p>
+           </div>
+           <div class="qbox">
+             <p>Question</p>
+             <p>
+             <input id="quest" placeholder="Enter question"></input> 
+             </p> 
+             </div>
+             <div class="opbox">
+              <p>option 1</p>
+              <p>
+             <input id="option1" placeholder="Enter option 1">
+             </p> 
+              <p>option 2</p>
+              <p>
+             <input id="option2" placeholder="Enter option 2">
+             </p>
+             <p>option 3</p> 
+              <p>
+             <input id="option3" placeholder="Enter option 3">
+             </p> 
+             </div>
+             <div class="ansbox">
+               <p>Answer</p>  
+              <p>
+             <select id="answer">
+                 <option>Select</option>
+                 <option value="0">option 1</option>
+                 <option value="1">option 2</option>
+                 <option value="2">option 3</option>
+             </select>
+             
+             </p> 
+             </div>
+                  <button class="addbtn" onclick="addque()">Add+</button> 
+                  <button class="btncopy" onclick="showpage2()">Finished</button>
+                 
+           </div>
+          
+       </div>
+       <small>Made by Balaji Murumbe</small>
+       </div>
+     </div>
+     
+     <div class="page1">
+         <div class="webbox">
+        <div class="compquiz">
+            
+              <div id="btncopybox">
+           <textarea id="codearea"></textarea>  
+          <button onclick="copyall()" class="btncopy">copy quiz</button>   
+          <p><a href="https://wa.me/message/APOCHIOCNX36P1">Tap hare to share copied data on my WhatsApp</a></p>
+         <button class="btncopy" onclick="showpage1()">Make New Quiz</button>  
+         </div>
+           
+        </div>   
+        </div>
+     </div>
+     
+   </div> 
+   </div>
+  <script>
+    
+    function getbyid(elmid){
+        
+        var elements = document.getElementById(elmid);
+        
+        return elements;
+        
+    }
+    
+    var arrquest = [];
+    var arropt = [];
+    var arrans = [];
+    var qcount=0;
+    var pg1 = document.getElementsByClassName("page1")[0]; 
+    var pg2 = document.getElementsByClassName("page1")[1];  
+    var showcodebox = document.getElementById("codearea");
+    var qcountview = document.getElementById("qcountview");
+    showpage1();
+    
+    function showpage1(){
+     
+      pg1.style.display="block";
+      pg2.style.display="none";
+      clearit();
+      qcount=0;
+      
+    }
+    
+    function showpage2(){
+      
+      showcodebox.value="["+arrquest+"]"+" | "+"["+arropt+"]"+" | "+"["+arrans+"]";
+      pg1.style.display="none";
+      pg2.style.display="block";
+        
+    }
+    
+    function addque(){
+       
+       var getconf = confirm("Want to Add this Question");
+       if(getconf==true){
+       adddata();
+       
+      }
+      
+        
+    }
+    
+    
+   
+   function clearit(){
+       
+       arrquest.length=0;
+       arropt.length=0;
+       arrans.length=0;
+       
+   } 
+   
+    function adddata(){
+        
+      var quest = getbyid("quest");  
+      var opt1 = getbyid("option1");
+      var opt2 = getbyid("option2");
+      var opt3 = getbyid("option3");
+      var ans = getbyid("answer");
+      var subarropt = [];
+      if(quest.value!="",opt1.value!="",opt2.value!="",opt3.value!="",ans.value!=""){
+      subarropt.push(opt1.value);
+      subarropt.push(opt2.value);
+      subarropt.push(opt3.value);
+      
+      arrquest.push(quest.value);
+      arropt.push(`[${subarropt}]`);
+      arrans.push(subarropt[ans.value]);
+      qcount+=1;
+      qcountview.innerHTML=`<b>${qcount} Added.</b>`;
+      }
+      else{
+          alert("All fields Required");
+      }
+      
+      quest.value="";
+      opt1.value="";
+      opt2.value="";
+      opt3.value="";
+      ans.value="";
+      
+      showarr();
+      
+    } 
+    
+    function showarr(){
+        
+        console.log(arrquest);
+        console.log(arropt);
+        console.log(arrans);
+        
+    }
+    
+    function copyit(texttocopy){
+          
+          alert("copied!");      navigator.clipboard.writeText(showcodebox.value);
+                
+    }
+   
+   function copyall(){
+       
+       copyit(arrquest+","+arropt+","+arrans);
+   }
+   
+  
+      
+  </script> 
+   
+</body>
+</html>
